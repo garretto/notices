@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { showNote } from './notification'
 
 const TRANSFORM_VALUE_LOAD = 'TRANSFORM_VALUE_LOAD'
 const TRANSFORM_VALUE_SUCCESS = 'TRANSFORM_VALUE_SUCCESS'
@@ -15,9 +16,16 @@ const transformText = (input, mode = LOWERCASE) => dispatch => {
     const endpoint = mode === UPPERCASE ? UPPERCASE_ENDPOINT : LOWERCASE_ENDPOINT
 
     dispatch({ type: TRANSFORM_VALUE_LOAD })
+    dispatch(showNote(`Loading ${mode}`, 'pending'))
     axios.post(endpoint, { input })
-        .then(res => dispatch({ type: TRANSFORM_VALUE_SUCCESS, payload: res.data }))
-        .catch(err => dispatch({ type: TRANSFORM_VALUE_ERROR, payload: err }))
+        .then(res => {
+            dispatch({ type: TRANSFORM_VALUE_SUCCESS, payload: res.data })
+            dispatch(showNote(`Successfully loaded ${mode}`, 'success'))
+        })
+        .catch(err => {
+            dispatch({ type: TRANSFORM_VALUE_ERROR, payload: err })
+            dispatch(showNote(`Error loading ${mode}`, 'error'))
+        })
 }
 
 export const transformToLowerCase = input => transformText(input)

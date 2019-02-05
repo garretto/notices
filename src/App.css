@@ -22,3 +22,34 @@
   from { transform: scale(1); }
   to { transform: scale(1.1); }
 }
+
+.Toast-container {
+  position: absolute;
+  left: 20px;
+  bottom: 20px;
+  background: gray;
+  color: white;
+  height: 44px; 
+  line-height: 44px;
+  padding: 0 18px;
+  border-radius: 8px;
+  box-shadow: 2px 2px 2px #999;
+}
+
+.Toast-close {
+  margin-left: 20px;
+  color: black;
+  font-weight: bold;
+}
+
+.error {
+  background: red;
+}
+
+.success {
+  background: green;
+}
+
+.pending {
+  background: gray;
+}
